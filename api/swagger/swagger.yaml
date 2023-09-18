@@ -1,0 +1,412 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: product
+  description: "documentation endpoints for a challenge backend" 
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths
+basePath: /v1
+#
+schemes:
+  # tip: remove http to make production-grade
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /user:
+    x-swagger-router-controller: user
+    post:
+      operationId: inscription
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+
+      description: inscription
+      responses:
+        201:
+          description: OK sent
+        300:
+          description: Faild to modify resource.
+    get:
+      operationId: getusers
+      description: get user
+      responses:
+        200:
+          description: OK
+        300:
+          description: Fail
+          schema:
+            type: object
+        404:
+          description: l'  utilisateur existe déjà
+  /user/{id}:
+    x-swagger-router-controller: user
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: id of the user
+        type: string
+    put:
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+      operationId: completecompte
+      consumes:
+        - multipart/form-data
+      description: inscription
+      responses:
+        200:
+          description: OK sent
+        300:
+          description: Faild to modify resource.
+    delete:
+      operationId: deleteuser
+      description: delete user
+      responses:
+        200:
+          description: OK
+        300:
+          description: Fail
+          schema:
+            type: object
+    get:
+      operationId: getuser
+      description: get user
+      responses:
+        200:
+          description: OK
+        300:
+          description: Fail
+          schema:
+            type: object
+        404:
+          description: l'  utilisateur existe dé
+  /editeuser/{id}:
+    x-swagger-router-controller: user
+    put:
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+        - in: path
+          name: id
+          required: true
+          description: id of the user
+          type: string
+      operationId: editeuser
+      description: update user info
+      responses:
+        200:
+          description: OK sent
+        300:
+          description: Faild to modify resource.
+          schema:
+            type: object
+  /categories:
+    x-swagger-router-controller: category
+    get:
+      operationId: getCategories
+      description: get categories
+      responses:
+        200:
+          description: Get categoies success
+        300:
+          description: Failed to get categoies
+        404:
+          description: Empty category list
+    post:
+      operationId: addCategory
+      description: add category
+      responses:
+        200:
+          description: Add categorie success
+        300:
+          description: Failed to add category
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+  /categories/{id}:
+    x-swagger-router-controller: category
+    put:
+      operationId: setCategory
+      description: set category
+      responses:
+        200:
+          description: Set category success
+        300:
+          description: Failed to set category
+        404:
+          description: Category not found
+      parameters:
+        - in: path
+          name: id
+          type: string
+          description: id of the category
+          required: true
+        - in: body
+          name: body
+          schema:
+            type: object
+    delete:
+      operationId: deleteCategory
+      description: delete category
+      responses:
+        200:
+          description: Category deleted
+        300:
+          description: Failed to delete category
+        404:
+          description: Category not found
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: id of the category
+    
+       
+  /searchCategory/{search}:
+    x-swagger-router-controller: category
+    get:
+      operationId: searchCategory
+      description: search category
+      responses:
+        200:
+          description: search category success
+        300:
+          description: Failed to search category
+        404:
+          description: Empty category list
+      parameters:
+        - in: path
+          name: search
+          description: text
+          required: true
+          type: string
+  /products:
+    x-swagger-router-controller: product
+    post:
+      consumes:
+        - multipart/form-data
+      operationId: addProduct
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+
+      description: add product
+      responses:
+        200:
+          description: OK sent
+        300:
+          description: Faild to modify resource.
+    get:
+      operationId: getProducts
+      description: get product 
+      responses:
+        200:
+          description: OK
+        300:
+          description: Fail
+  /searchProducts/{search}:
+    x-swagger-router-controller: product
+    get:
+      parameters:
+        - in: path
+          name: search
+          required: true
+          description: id of the user
+          type: string
+      operationId: searchProducts
+      description: set product info
+      responses:
+        200:
+          description: OK sent
+        300:
+          description: Faild to modify resource.
+
+  /product/{id}:
+    x-swagger-router-controller: product
+    put:
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+        - in: path
+          name: id
+          required: true
+          description: id of the product
+          type: string
+      operationId: setProduct
+      description: set product info
+      responses:
+        200:
+          description: OK sent
+        300:
+          description: Faild to modify resource.
+          schema:
+            type: object
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id of the product
+          type: string
+      operationId: deleteProduct
+      
+      description: delete product info
+      responses:
+        200:
+          description: OK sent
+        300:
+          description: Faild to modify resource.
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id of the product
+          type: string
+      operationId: getProduct
+      
+      description: get product info
+      responses:
+        200:
+          description: OK sent
+        300:
+          description: Faild to modify resource. 
+
+  /ProductsByCat/{id}:
+    x-swagger-router-controller: product
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id of the category
+          type: string
+      operationId: getProductsByCat
+      description: get products list by category 
+      responses:
+        200:
+          description: OK sent
+        300:
+          description: Faild to modify resource.
+  /productsPagination/{page}/{limit}:
+    x-swagger-router-controller: product
+    get:
+      operationId: getProductsPagination
+      description: get products with pagination
+      responses:
+        200:
+          description: Get products success
+        300:
+          description: Failed to get products
+        404:
+          description: Empty product list
+      parameters:
+        - in: path
+          name: page
+          description: page
+          required: true
+          type: string
+        - in: path
+          name: limit
+          description: limit
+          required: true
+          type: string
+  /login:
+    x-swagger-router-controller: user
+    post:
+      operationId: login
+      description: Send login info 
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+      responses:
+        200:
+          description: User waits for confirmation code
+          schema:
+            type: object
+        300:
+          description: Error in the login info, or server error
+          schema:
+            type: object
+  /purchase:
+    x-swagger-router-controller: purchase
+    post:
+      operationId: PurchaseProduct
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+
+      description: purchase product
+      responses:
+        200:
+          description: OK sent
+        300:
+          description: Faild to sent resource.
+  /purchase/stats:
+    x-swagger-router-controller: purchase
+    get:
+      operationId: PurchaseProductStats
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+
+      description: purchase product
+      responses:
+        200:
+          description: OK sent
+        300:
+          description: Faild to sent resource.
+  
+  /RandomData:
+    x-swagger-router-controller: purchase
+   
+    post:
+      operationId: PostDataRandom
+      description: get user
+      responses:
+        200:
+          description: OK
+        300:
+          description: Fail
+          schema:
+            type: object
+    get:
+      operationId: GetDataRandom
+      description: get user
+      responses:
+        200:
+          description: OK
+        300:
+          description: Fail
+          schema:
+            type: object
+       
+   
